@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chef Tristan Rodriguez | Portfolio</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+
+      /* 🌅 Sunset background */
+      background: linear-gradient(to bottom, #ff7e5f, #feb47b, #ffcc70, #2b1055);
+      height: 100vh;
+
+      cursor: none;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px;
+      background: rgba(0,0,0,0.4);
+    }
+
+    section {
+      margin: 20px;
+      padding: 20px;
+      background: rgba(0,0,0,0.45);
+      border-radius: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+
+    h2 {
+      color: #ffcc70;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: rgba(0,0,0,0.5);
+    }
+
+    /* 🍣 sushi cursor */
+    #sushi {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- 🍣 Sushi Cursor -->
+<img id="sushi" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Salmon_sushi.png">
+
+<header>
+  <h1>👨‍🍳 Tristan Rodriguez</h1>
+  <p>Aspiring Chef & Student Developer</p>
+</header>
+
+<section>
+  <h2>About Me</h2>
+  <p>
+    Hi, I'm Tristan Rodriguez. I enjoy cooking and coding.
+    Just like creating recipes, I build projects step-by-step.
+    My goal is to become a great chef and continue learning technology.
+  </p>
+</section>
+
+<section>
+  <h2>Signature Dish 🍽️</h2>
+  <h3>Animal Database (CRUD Project)</h3>
+  <p>
+    This project is like a recipe for managing information.
+  </p>
+  <ul>
+    <li><strong>Create:</strong> Add new animals</li>
+    <li><strong>Read:</strong> View animal data</li>
+    <li><strong>Update:</strong> Edit existing entries</li>
+    <li><strong>Delete:</strong> Remove animals</li>
+  </ul>
+  <p><strong>Ingredients (Tech Used):</strong> Add your language here</p>
+</section>
+
+<section>
+  <h2>Skills 🔪</h2>
+  <ul>
+    <li>Cooking Basics</li>
+    <li>Programming</li>
+    <li>Problem Solving</li>
+  </ul>
+</section>
+
+<footer>
+  <p>© 2026 Tristan Rodriguez</p>
+</footer>
+
+<script>
+  const sushi = document.getElementById("sushi");
+
+  document.addEventListener("mousemove", (e) => {
+    sushi.style.left = e.clientX + "px";
+    sushi.style.top = e.clientY + "px";
+  });
+</script>
+
+</body>
+</html>
