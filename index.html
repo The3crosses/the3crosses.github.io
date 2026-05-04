@@ -1,117 +1,559 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Chef Tristan Rodriguez | Portfolio</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rally Racing Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: white;
+  body {
+    font-family: 'Orbitron', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(180deg,
+      #0d0221 0%, #1a0533 10%, #3d0c4e 22%, #7b1c5a 35%,
+      #c0392b 50%, #e05c1a 62%, #f4a340 74%, #fdd87e 83%,
+      #ffe4a0 90%, #fff6d5 100%
+    );
+    overflow-x: hidden;
+    position: relative;
+  }
 
-      /* 🌅 Sunset background */
-      background: linear-gradient(to bottom, #ff7e5f, #feb47b, #ffcc70, #2b1055);
-      height: 100vh;
+  /* Stars */
+  .stars {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 55%;
+    z-index: 1;
+    pointer-events: none;
+  }
 
-      cursor: none;
-    }
+  /* Sun */
+  .sun {
+    position: fixed;
+    bottom: 38%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, #fff7a1 0%, #ffe566 40%, #ffb347 70%, transparent 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 60px 30px rgba(255,200,50,0.4), 0 0 120px 60px rgba(255,150,20,0.2);
+    z-index: 2;
+  }
 
-    header {
-      text-align: center;
-      padding: 30px;
-      background: rgba(0,0,0,0.4);
-    }
+  /* Mountains */
+  .mountains {
+    position: fixed;
+    bottom: 38%;
+    left: 0; right: 0;
+    z-index: 2;
+    height: 100px;
+  }
 
-    section {
-      margin: 20px;
-      padding: 20px;
-      background: rgba(0,0,0,0.45);
-      border-radius: 12px;
-    }
+  /* Ground */
+  .horizon-ground {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 38%;
+    background: linear-gradient(180deg, #3d1a00 0%, #2a0f00 40%, #1a0a00 100%);
+    z-index: 3;
+  }
 
-    h1 {
-      margin: 0;
-      font-size: 2.5em;
-    }
+  /* Road */
+  .road-svg {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 38vh;
+    z-index: 4;
+  }
 
-    h2 {
-      color: #ffcc70;
-    }
+  /* Car */
+  .car-wrapper {
+    position: fixed;
+    bottom: calc(38% + 6px);
+    left: -160px;
+    z-index: 10;
+    animation: drive 5s cubic-bezier(0.25,0.1,0.25,1) forwards;
+  }
 
-    footer {
-      text-align: center;
-      padding: 10px;
-      background: rgba(0,0,0,0.5);
-    }
+  @keyframes drive {
+    0%   { left: -160px; }
+    100% { left: calc(50% - 45px); }
+  }
 
-    /* 🍣 sushi cursor */
-    #sushi {
-      position: fixed;
-      width: 40px;
-      height: 40px;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-    }
-  </style>
+  .car-svg { width: 90px; height: auto; }
+
+  .dust {
+    position: absolute;
+    bottom: 0; left: -20px;
+    width: 60px; height: 18px;
+    background: radial-gradient(ellipse, rgba(200,140,60,0.5) 0%, transparent 80%);
+    border-radius: 50%;
+    animation: dustAnim 0.4s ease-in-out infinite alternate;
+  }
+
+  @keyframes dustAnim {
+    0%  { transform: scale(1); opacity: 0.6; }
+    100%{ transform: scale(1.3); opacity: 0.2; }
+  }
+
+  /* Content layer */
+  .content {
+    position: relative;
+    z-index: 20;
+    max-width: 860px;
+    margin: 0 auto;
+    padding-bottom: 4rem;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 2rem 1rem 0.5rem;
+  }
+
+  .header h1 {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 900;
+    color: #fff7a1;
+    text-shadow: 0 0 20px rgba(255,200,50,0.8), 2px 2px 0 rgba(0,0,0,0.5);
+    letter-spacing: 0.1em;
+  }
+
+  .header .tagline {
+    font-size: clamp(0.6rem, 2vw, 0.85rem);
+    color: #fdd87e;
+    letter-spacing: 0.3em;
+    margin-top: 0.3rem;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+  }
+
+  /* Engine button */
+  .engine-btn {
+    display: inline-block;
+    margin: 1.2rem auto 0;
+    background: rgba(255,100,20,0.15);
+    border: 1.5px solid rgba(255,120,30,0.5);
+    color: #f4a340;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    padding: 0.6rem 1.4rem;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .engine-btn:hover {
+    background: rgba(255,120,30,0.3);
+    color: #fff;
+  }
+
+  /* Nav */
+  .nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .nav button {
+    background: rgba(255,200,50,0.12);
+    border: 1.5px solid rgba(255,200,50,0.5);
+    color: #fdd87e;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    padding: 0.5rem 1rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav button:hover,
+  .nav button.active {
+    background: rgba(255,200,50,0.3);
+    border-color: #fdd87e;
+    color: #fff;
+  }
+
+  /* Sections */
+  .section { display: none; padding: 1.5rem 2rem 3rem; }
+  .section.active { display: block; }
+
+  /* Cards */
+  .card {
+    background: rgba(10,5,30,0.75);
+    border: 1px solid rgba(255,180,50,0.3);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+    backdrop-filter: blur(4px);
+  }
+
+  .card h2 {
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    color: #f4a340;
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .card p {
+    font-family: Arial, sans-serif;
+    font-size: 0.95rem;
+    color: rgba(255,240,200,0.85);
+    line-height: 1.7;
+  }
+
+  /* Stats grid */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+    margin-top: 0.5rem;
+  }
+
+  .stat-box {
+    background: rgba(255,150,30,0.08);
+    border: 1px solid rgba(255,150,30,0.25);
+    border-radius: 3px;
+    padding: 0.8rem;
+    text-align: center;
+  }
+
+  .stat-box .val {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #fff7a1;
+    display: block;
+  }
+
+  .stat-box .lbl {
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+    color: rgba(255,200,100,0.6);
+    margin-top: 0.2rem;
+    display: block;
+  }
+
+  /* Race cards */
+  .race-card {
+    background: rgba(10,5,30,0.75);
+    border: 1px solid rgba(255,180,50,0.3);
+    border-radius: 4px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(4px);
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .race-badge {
+    flex-shrink: 0;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    border: 2px solid #f4a340;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.5rem;
+    letter-spacing: 0.05em;
+    color: #fdd87e;
+    text-align: center;
+  }
+
+  .race-badge .place {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: #fff7a1;
+    line-height: 1;
+  }
+
+  .race-info h3 {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: #f4a340;
+    margin-bottom: 0.3rem;
+  }
+
+  .race-info p {
+    font-family: Arial, sans-serif;
+    font-size: 0.88rem;
+    color: rgba(255,240,200,0.8);
+    line-height: 1.6;
+  }
+
+  .race-meta {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.52rem;
+    color: rgba(255,200,100,0.5);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.4rem;
+  }
+
+  @media (max-width: 600px) {
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .section { padding: 1rem 1rem 3rem; }
+    .race-card { flex-direction: column; gap: 0.8rem; }
+  }
+</style>
 </head>
-
 <body>
 
-<!-- 🍣 Sushi Cursor -->
-<img id="sushi" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Salmon_sushi.png">
+<!-- Background layers -->
+<svg class="stars" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">
+  <circle cx="80"  cy="30" r="1"   fill="white" opacity="0.7"/>
+  <circle cx="200" cy="15" r="1.5" fill="white" opacity="0.5"/>
+  <circle cx="350" cy="40" r="1"   fill="white" opacity="0.8"/>
+  <circle cx="500" cy="20" r="1"   fill="white" opacity="0.6"/>
+  <circle cx="650" cy="35" r="1.5" fill="white" opacity="0.4"/>
+  <circle cx="720" cy="10" r="1"   fill="white" opacity="0.7"/>
+  <circle cx="140" cy="70" r="1"   fill="white" opacity="0.5"/>
+  <circle cx="420" cy="55" r="1"   fill="white" opacity="0.6"/>
+  <circle cx="580" cy="65" r="1.5" fill="white" opacity="0.5"/>
+  <circle cx="760" cy="50" r="1"   fill="white" opacity="0.7"/>
+  <circle cx="30"  cy="90" r="1"   fill="white" opacity="0.4"/>
+  <circle cx="300" cy="85" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="680" cy="80" r="1"   fill="white" opacity="0.5"/>
+</svg>
 
-<header>
-  <h1>👨‍🍳 Tristan Rodriguez</h1>
-  <p>Aspiring Chef & Student Developer</p>
-</header>
+<div class="sun"></div>
 
-<section>
-  <h2>About Me</h2>
-  <p>
-    Hi, I'm Tristan Rodriguez. I enjoy cooking and coding.
-    Just like creating recipes, I build projects step-by-step.
-    My goal is to become a great chef and continue learning technology.
-  </p>
-</section>
+<svg class="mountains" viewBox="0 0 800 100" preserveAspectRatio="xMidYMax slice">
+  <polygon points="0,100 120,20 240,100"   fill="#1a0a00" opacity="0.9"/>
+  <polygon points="100,100 260,10 420,100" fill="#230d00" opacity="0.85"/>
+  <polygon points="300,100 460,30 620,100" fill="#1a0a00" opacity="0.9"/>
+  <polygon points="500,100 660,15 800,100" fill="#200c00" opacity="0.85"/>
+  <polygon points="650,100 780,35 900,100" fill="#1a0a00" opacity="0.9"/>
+</svg>
 
-<section>
-  <h2>Signature Dish 🍽️</h2>
-  <h3>Animal Database (CRUD Project)</h3>
-  <p>
-    This project is like a recipe for managing information.
-  </p>
-  <ul>
-    <li><strong>Create:</strong> Add new animals</li>
-    <li><strong>Read:</strong> View animal data</li>
-    <li><strong>Update:</strong> Edit existing entries</li>
-    <li><strong>Delete:</strong> Remove animals</li>
-  </ul>
-  <p><strong>Ingredients (Tech Used):</strong> Add your language here</p>
-</section>
+<div class="horizon-ground"></div>
 
-<section>
-  <h2>Skills 🔪</h2>
-  <ul>
-    <li>Cooking Basics</li>
-    <li>Programming</li>
-    <li>Problem Solving</li>
-  </ul>
-</section>
+<svg class="road-svg" viewBox="0 0 200 300" preserveAspectRatio="none">
+  <polygon points="100,0 0,300 200,300" fill="#222"/>
+  <rect x="96" y="10"  width="8"  height="30" fill="#f4a340" opacity="0.7"/>
+  <rect x="94" y="60"  width="12" height="30" fill="#f4a340" opacity="0.6"/>
+  <rect x="92" y="110" width="16" height="35" fill="#f4a340" opacity="0.5"/>
+  <rect x="88" y="160" width="24" height="40" fill="#f4a340" opacity="0.4"/>
+  <rect x="82" y="215" width="36" height="45" fill="#f4a340" opacity="0.3"/>
+</svg>
 
-<footer>
-  <p>© 2026 Tristan Rodriguez</p>
-</footer>
+<div class="car-wrapper" id="carWrapper">
+  <div class="dust"></div>
+  <svg class="car-svg" viewBox="0 0 120 55" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="28" width="100" height="18" rx="4" fill="#8B0000"/>
+    <rect x="22" y="14" width="65"  height="18" rx="5" fill="#A00000"/>
+    <rect x="28" y="16" width="22"  height="12" rx="2" fill="#88ccff" opacity="0.7"/>
+    <rect x="54" y="16" width="22"  height="12" rx="2" fill="#88ccff" opacity="0.7"/>
+    <rect x="12" y="38" width="18"  height="7"  rx="1" fill="#600000"/>
+    <rect x="90" y="38" width="18"  height="7"  rx="1" fill="#600000"/>
+    <circle cx="25" cy="43" r="10" fill="#111" stroke="#555" stroke-width="2"/>
+    <circle cx="25" cy="43" r="6"  fill="#333"/>
+    <circle cx="25" cy="43" r="2"  fill="#f4a340"/>
+    <circle cx="95" cy="43" r="10" fill="#111" stroke="#555" stroke-width="2"/>
+    <circle cx="95" cy="43" r="6"  fill="#333"/>
+    <circle cx="95" cy="43" r="2"  fill="#f4a340"/>
+    <rect x="5"   y="32" width="8" height="5" rx="1" fill="#ffcc00"/>
+    <rect x="107" y="32" width="8" height="5" rx="1" fill="#ff3300" opacity="0.8"/>
+    <text x="35" y="26" font-size="5" fill="#f4a340" font-family="Arial" font-weight="bold">#07 RALLY</text>
+    <rect x="2" y="33" width="4" height="3" rx="1" fill="#fffaaa"/>
+    <rect x="2" y="37" width="4" height="3" rx="1" fill="#fffaaa"/>
+  </svg>
+</div>
+
+<!-- Main content -->
+<div class="content">
+
+  <div class="header">
+    <h1>Tristan Rodriguez</h1>
+    <div class="tagline">OFF-ROAD &amp; RALLY RACING PORTFOLIO</div>
+    <br/>
+    <button class="engine-btn" onclick="playEngine()">&#9654; START ENGINE</button>
+  </div>
+
+  <nav class="nav">
+    <button class="active" onclick="showSection('about', this)">ABOUT</button>
+    <button onclick="showSection('stats', this)">STATS</button>
+    <button onclick="showSection('races', this)">RACE LOG</button>
+    <button onclick="showSection('contact', this)">CONTACT</button>
+  </nav>
+
+  <!-- ABOUT -->
+  <div id="about" class="section active">
+    <div class="card">
+      <h2>Who I Am</h2>
+      <p>Built for the dirt, wired for adrenaline. I'm a passionate off-road and rally racer who lives for the challenge of unpredictable terrain, tight corners, and pushing machines to their limits. Whether it's a rocky canyon stage or a desert enduro, I show up to compete, adapt, and win.</p>
+    </div>
+    <div class="card">
+      <h2>My Driving Style</h2>
+      <p>Aggressive on the throttle, precise on the wheel. I thrive in technical sections where reading the road matters as much as raw speed. My co-driver and I have built a partnership forged in dust, rain, and late-night prep sessions. Every race teaches us something new.</p>
+    </div>
+    <div class="card">
+      <h2>My Machine</h2>
+      <p>Currently campaigning a [Poesche 944] thats lifted, rally-spec roll cage, and a powertrain tuned for the extremes. Every bolt has a reason, every modification has been tested at full send.</p>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div id="stats" class="section">
+    <div class="card">
+      <h2>Career Stats</h2>
+      <div class="stat-grid">
+        <div class="stat-box"><span class="val">24</span><span class="lbl">RACES ENTERED</span></div>
+        <div class="stat-box"><span class="val">9</span><span class="lbl">PODIUMS</span></div>
+        <div class="stat-box"><span class="val">3</span><span class="lbl">WINS</span></div>
+        <div class="stat-box"><span class="val">4</span><span class="lbl">SEASONS</span></div>
+        <div class="stat-box"><span class="val">6</span><span class="lbl">STAGES WON</span></div>
+        <div class="stat-box"><span class="val">1,240</span><span class="lbl">MILES RACED</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Specialties</h2>
+      <p>Desert enduro &nbsp;•&nbsp; Rock crawling stages &nbsp;•&nbsp; Technical mountain rallies &nbsp;•&nbsp; Night navigation &nbsp;•&nbsp; High-speed gravel</p>
+    </div>
+  </div>
+
+  <!-- RACE LOG -->
+  <div id="races" class="section">
+
+    <div class="race-card">
+      <div class="race-badge"><span class="place">1st</span>PLACE</div>
+      <div class="race-info">
+        <div class="race-meta">2024 &nbsp;•&nbsp; SEASON ROUND 3</div>
+        <h3>DESERT DUST CHALLENGE</h3>
+        <p>A grueling 3-stage desert course through loose sand and rocky ridgelines. Dominated the final stage to take the overall win after a tight battle through day two.</p>
+      </div>
+    </div>
+
+    <div class="race-card">
+      <div class="race-badge"><span class="place">2nd</span>PLACE</div>
+      <div class="race-info">
+        <div class="race-meta">2024 &nbsp;•&nbsp; SEASON ROUND 1</div>
+        <h3>HIGH COUNTRY RALLY</h3>
+        <p>Mountain stages at elevation with mixed gravel and hardpack. Pushed hard on stages 2 and 4 but came up just short. Strong result to open the season.</p>
+      </div>
+    </div>
+
+    <div class="race-card">
+      <div class="race-badge"><span class="place">3rd</span>PLACE</div>
+      <div class="race-info">
+        <div class="race-meta">2023 &nbsp;•&nbsp; REGIONAL CHAMPIONSHIP</div>
+        <h3>RED CANYON ENDURO</h3>
+        <p>Punishing canyon run with heavy ruts and elevation changes. Recovered from a puncture on stage 1 to claw back time and finish on the podium.</p>
+      </div>
+    </div>
+
+    <div class="race-card">
+      <div class="race-badge" style="border-color:rgba(255,180,50,0.4);">
+        <span class="place" style="font-size:1rem;">DNF</span>
+      </div>
+      <div class="race-info">
+        <div class="race-meta">2023 &nbsp;•&nbsp; NATIONAL SERIES</div>
+        <h3>IRONSTONE 500</h3>
+        <p>Running in P2 before a broken driveshaft ended the day on stage 5. The speed was undeniably there — lessons learned for next time.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CONTACT -->
+  <div id="contact" class="section">
+    <div class="card">
+      <h2>Get In Touch</h2>
+      <p>Looking for a sponsored driver, a teammate, or just want to talk racing? Reach out — always down to connect with fellow off-road enthusiasts, team managers, and sponsors.</p>
+    </div>
+    <div class="card">
+      <h2>Sponsorship</h2>
+      <p>Currently seeking support for the 2025 season. I offer logo placement, social media features, event appearances, and genuine ambassadorship for brands that share a passion for the sport.</p>
+    </div>
+    <div class="card">
+      <h2>Social &amp; Email</h2>
+      <p>
+        Email: triRalley@gmail.com<br/><br/>
+        Instagram: @tryracingme<br/><br/>
+        YouTube: /tryracingme
+      </p>
+    </div>
+  </div>
+
+</div><!-- end .content -->
 
 <script>
-  const sushi = document.getElementById("sushi");
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
 
-  document.addEventListener("mousemove", (e) => {
-    sushi.style.left = e.clientX + "px";
-    sushi.style.top = e.clientY + "px";
-  });
+function playEngine() {
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if (!AudioCtx) return;
+  const ctx = new AudioCtx();
+
+  function makeEngine(freq, duration, startTime) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const distortion = ctx.createWaveShaper();
+    const curve = new Float32Array(256);
+    for (let i = 0; i < 256; i++) {
+      const x = (i * 2) / 256 - 1;
+      curve[i] = (Math.PI + 400) * x / (Math.PI + 400 * Math.abs(x));
+    }
+    distortion.curve = curve;
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + startTime);
+    osc.frequency.exponentialRampToValueAtTime(freq * 2.8, ctx.currentTime + startTime + duration * 0.6);
+    osc.frequency.exponentialRampToValueAtTime(freq * 1.6, ctx.currentTime + startTime + duration);
+    gain.gain.setValueAtTime(0, ctx.currentTime + startTime);
+    gain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + startTime + 0.05);
+    gain.gain.setValueAtTime(0.18, ctx.currentTime + startTime + duration - 0.1);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + startTime + duration);
+    osc.connect(distortion);
+    distortion.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(ctx.currentTime + startTime);
+    osc.stop(ctx.currentTime + startTime + duration);
+  }
+
+  function addRumble(startTime, duration) {
+    const buf = ctx.createBuffer(1, ctx.sampleRate * duration, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.05;
+    const source = ctx.createBufferSource();
+    source.buffer = buf;
+    const filt = ctx.createBiquadFilter();
+    filt.type = 'lowpass';
+    filt.frequency.value = 120;
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.4, ctx.currentTime + startTime);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + startTime + duration);
+    source.connect(filt);
+    filt.connect(gain);
+    gain.connect(ctx.destination);
+    source.start(ctx.currentTime + startTime);
+    source.stop(ctx.currentTime + startTime + duration);
+  }
+
+  makeEngine(60, 0.6, 0);
+  addRumble(0, 0.7);
+  makeEngine(70, 0.7, 0.5);
+  addRumble(0.5, 0.8);
+  makeEngine(80, 1.2, 1.0);
+  addRumble(1.0, 1.5);
+
+  const car = document.getElementById('carWrapper');
+  car.style.animation = 'none';
+  void car.offsetWidth;
+  car.style.animation = 'drive 5s cubic-bezier(0.25,0.1,0.25,1) forwards';
+}
 </script>
-
 </body>
 </html>
